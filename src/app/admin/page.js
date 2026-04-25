@@ -7,6 +7,7 @@ export default function AdminPage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [file, setFile] = useState(null)
+  const [message, setMessage] = useState('')
 
   const handleLogin = (e) => {
     e.preventDefault()
@@ -19,6 +20,7 @@ export default function AdminPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setMessage('')
     
     const formData = new FormData()
     formData.append('title', title)
@@ -31,12 +33,12 @@ export default function AdminPage() {
     })
 
     if (res.ok) {
-      alert('Post published successfully!')
+      setMessage('Post published successfully!')
       setTitle('')
       setContent('')
       setFile(null)
     } else {
-      alert('Failed to publish post')
+      setMessage('Failed to publish post')
     }
   }
 
@@ -61,6 +63,11 @@ export default function AdminPage() {
   return (
     <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded shadow">
       <h2 className="text-2xl font-bold mb-4">Create New Post</h2>
+      {message && (
+        <p className="mb-4 rounded bg-green-50 p-3 text-green-700" role="status">
+          {message}
+        </p>
+      )}
       <form onSubmit={handleSubmit}>
         <input
           type="text"
